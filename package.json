@@ -1,18 +1,38 @@
 {
-  "name": "grr",
+  "name": "log-grr",
   "version": "0.1.0",
   "description": "An opinionated way to use pino in apps",
   "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vitest watch",
-    "build": "tsc --noEmit",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "check": "npm run build && npm run test && npm run lint && npm run format",
+    "check": "npm run typecheck && npm run test && npm run lint && npm run format",
+    "prepublishOnly": "npm run build",
     "prepare": "husky"
   },
-  "keywords": [],
+  "keywords": [
+    "pino",
+    "logging",
+    "logger",
+    "structured-logging",
+    "context"
+  ],
   "author": "Peter Sergeant",
   "license": "MIT",
   "devDependencies": {
