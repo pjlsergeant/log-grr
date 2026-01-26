@@ -1,0 +1,40 @@
+{
+  "name": "grr",
+  "version": "0.1.0",
+  "description": "An opinionated way to use pino in apps",
+  "private": false,
+  "scripts": {
+    "dev": "vitest watch",
+    "build": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "npm run build && npm run test && npm run lint && npm run format",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "Peter Sergeant",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^24.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "git-format-staged": "^3.1.1",
+    "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.5.3",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "pino": "^10.3.0",
+    "pino-pretty": "^13.1.3"
+  }
+}

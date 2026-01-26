@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Format staged files
+npx git-format-staged --formatter 'prettier --stdin-filepath "{}"' '**/*.tsx' '**/*.ts' '**/*.js'
+
+# Lint staged files
+npx git-format-staged --formatter 'eslint --stdin --stdin-filename "{}" >&2' '**/*.tsx' '**/*.ts' '**/*.js'
