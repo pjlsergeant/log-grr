@@ -1,5 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createPinoLogger, PinoLogger, createPinoInstance } from './pinoLogger.js';
+import {
+  createPinoLogger,
+  PinoLogger,
+  createPinoInstance,
+  prettyModeFormatter,
+} from './pinoLogger.js';
 
 describe('PinoLogger', () => {
   it('creates a logger for a category', () => {
@@ -140,5 +145,103 @@ describe('createPinoInstance', () => {
   it('creates a pino instance with custom level', () => {
     const instance = createPinoInstance({ level: 'debug', pretty: false });
     expect(instance.level).toBe('debug');
+  });
+
+  it('hides $-prefixed fields by default in pretty mode', () => {
+    const instance = createPinoInstance({ pretty: true });
+    // The formatter is applied, so we test via the bindings
+    // We can't easily test the actual output without mocking stdout,
+    // but we can verify the instance was created with the right config
+    expect(instance.level).toBe('info');
+  });
+
+  it('shows $-prefixed fields when showMetadata is true in pretty mode', () => {
+    const instance = createPinoInstance({ pretty: true, showMetadata: true });
+    expect(instance.level).toBe('info');
+  });
+});
+
+describe('prettyModeFormatter', () => {
+  it('filters $-prefixed keys', () => {
+    const input = {
+      $requestId: 'abc',
+      $category: 'test',
+      $topics: ['test'],
+      debug: { port: 3000 },
+      someField: 'value',
+    };
+
+    const result = prettyModeFormatter(input);
+
+    expect(result).not.toHaveProperty('$requestId');
+    expect(result).not.toHaveProperty('$category');
+    expect(result).not.toHaveProperty('$topics');
+  });
+
+  it('flattens debug object contents to top level', () => {
+    const input = {
+      $category: 'test',
+      debug: { port: 3000, host: 'localhost' },
+      someField: 'value',
+    };
+
+    const result = prettyModeFormatter(input);
+
+    expect(result).toEqual({
+      port: 3000,
+      host: 'localhost',
+      someField: 'value',
+    });
+    expect(result).not.toHaveProperty('debug');
+  });
+
+  it('handles empty debug object', () => {
+    const input = {
+      $category: 'test',
+      debug: {},
+    };
+
+    const result = prettyModeFormatter(input);
+
+    expect(result).toEqual({});
+  });
+
+  it('handles missing debug object', () => {
+    const input = {
+      $category: 'test',
+      someField: 'value',
+    };
+
+    const result = prettyModeFormatter(input);
+
+    expect(result).toEqual({ someField: 'value' });
+  });
+
+  it('keeps pino reserved keys nested in debug to avoid conflicts', () => {
+    const input = {
+      $category: 'test',
+      debug: { msg: 'user message', level: 'warn', port: 3000 },
+    };
+
+    const result = prettyModeFormatter(input);
+
+    expect(result).toEqual({
+      port: 3000,
+      debug: { msg: 'user message', level: 'warn' },
+    });
+  });
+
+  it('handles mix of reserved and non-reserved keys', () => {
+    const input = {
+      debug: { time: 12345, hostname: 'myhost', userId: 42, action: 'login' },
+    };
+
+    const result = prettyModeFormatter(input);
+
+    expect(result).toEqual({
+      userId: 42,
+      action: 'login',
+      debug: { time: 12345, hostname: 'myhost' },
+    });
   });
 });

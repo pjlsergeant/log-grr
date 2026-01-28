@@ -50,8 +50,10 @@ export function createGrr<C extends string>(): GrrInstance<C> {
       grr = withDecoration(testLogger.grr, options);
     } else if ('pino' in config && config.pino) {
       // Custom pino instance - full control
-      if (process.env.GRR_LEVEL || process.env.GRR_PRETTY) {
-        console.warn('grr: GRR_LEVEL/GRR_PRETTY are ignored when using a custom pino instance');
+      if (process.env.GRR_LEVEL || process.env.GRR_PRETTY || process.env.GRR_SHOW_METADATA) {
+        console.warn(
+          'grr: GRR_LEVEL/GRR_PRETTY/GRR_SHOW_METADATA are ignored when using a custom pino instance',
+        );
       }
       grr = withDecoration(createPinoLoggerFromInstance(config.pino), options);
     } else if ('transports' in config && config.transports) {
@@ -63,7 +65,11 @@ export function createGrr<C extends string>(): GrrInstance<C> {
       const level = 'level' in config && config.level !== undefined ? config.level : defaults.level;
       const pretty =
         'pretty' in config && config.pretty !== undefined ? config.pretty : defaults.pretty;
-      grr = withDecoration(createPinoLogger({ level, pretty }), options);
+      const showMetadata =
+        'showMetadata' in config && config.showMetadata !== undefined
+          ? config.showMetadata
+          : defaults.showMetadata;
+      grr = withDecoration(createPinoLogger({ level, pretty, showMetadata }), options);
     }
 
     initialized = true;

@@ -6,7 +6,42 @@ import { Logger, Level } from './types.js';
 export type PinoConfig = {
   level?: Level;
   pretty?: boolean;
+  /** When false (default in pretty mode), hides $-prefixed fields from output. */
+  showMetadata?: boolean;
 };
+
+// Pino reserved keys that should not be overwritten when flattening debug
+const PINO_RESERVED_KEYS = new Set(['level', 'time', 'msg', 'pid', 'hostname', 'name', 'v']);
+
+/**
+ * Formatter for pretty mode that strips $-prefixed metadata and flattens debug.
+ * Exported for testing.
+ */
+export function prettyModeFormatter(obj: Record<string, unknown>): Record<string, unknown> {
+  const filtered: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (key.startsWith('$')) {
+      continue;
+    }
+    if (key === 'debug' && value && typeof value === 'object') {
+      // Flatten debug, but keep reserved keys nested to avoid conflicts
+      const reserved: Record<string, unknown> = {};
+      for (const [debugKey, debugValue] of Object.entries(value as Record<string, unknown>)) {
+        if (PINO_RESERVED_KEYS.has(debugKey)) {
+          reserved[debugKey] = debugValue;
+        } else {
+          filtered[debugKey] = debugValue;
+        }
+      }
+      if (Object.keys(reserved).length > 0) {
+        filtered.debug = reserved;
+      }
+    } else {
+      filtered[key] = value;
+    }
+  }
+  return filtered;
+}
 
 /**
  * Creates a pino instance with the given config.
@@ -16,8 +51,11 @@ export function createPinoInstance(config: PinoConfig = {}): PinoInstance {
   const pretty = config.pretty ?? process.stdout.isTTY;
 
   if (pretty) {
+    const showMetadata = config.showMetadata ?? false;
+
     return pino({
       level,
+      formatters: showMetadata ? undefined : { log: prettyModeFormatter },
       transport: {
         target: 'pino-pretty',
         options: { colorize: true },

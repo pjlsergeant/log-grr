@@ -34,6 +34,8 @@ type SimpleConfig = BaseConfig & {
   type?: 'pino';
   level?: Level;
   pretty?: boolean;
+  /** When false (default in pretty mode), hides $-prefixed fields from output. */
+  showMetadata?: boolean;
 };
 
 export type Config = TestConfig | CustomPinoConfig | TransportsConfig | SimpleConfig;
@@ -59,6 +61,16 @@ function parsePretty(value: string | undefined): boolean {
   throw new Error(`Invalid GRR_PRETTY "${value}". Must be one of: 1, 0, true, false`);
 }
 
+function parseShowMetadata(value: string | undefined): boolean | undefined {
+  if (value === undefined) return undefined;
+
+  const lower = value.toLowerCase();
+  if (lower === '1' || lower === 'true') return true;
+  if (lower === '0' || lower === 'false') return false;
+
+  throw new Error(`Invalid GRR_SHOW_METADATA "${value}". Must be one of: 1, 0, true, false`);
+}
+
 /**
  * Reads config from environment variables with sensible defaults.
  */
@@ -66,5 +78,6 @@ export function configFromEnv(): SimpleConfig {
   return {
     level: parseLevel(process.env.GRR_LEVEL),
     pretty: parsePretty(process.env.GRR_PRETTY),
+    showMetadata: parseShowMetadata(process.env.GRR_SHOW_METADATA),
   };
 }

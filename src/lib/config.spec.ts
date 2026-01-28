@@ -79,4 +79,37 @@ describe('configFromEnv', () => {
       'Invalid GRR_PRETTY "yes". Must be one of: 1, 0, true, false',
     );
   });
+
+  it('returns undefined for showMetadata when GRR_SHOW_METADATA not set', () => {
+    delete process.env.GRR_SHOW_METADATA;
+    expect(configFromEnv().showMetadata).toBeUndefined();
+  });
+
+  it('parses GRR_SHOW_METADATA=true', () => {
+    process.env.GRR_SHOW_METADATA = 'true';
+    expect(configFromEnv().showMetadata).toBe(true);
+  });
+
+  it('parses GRR_SHOW_METADATA=false', () => {
+    process.env.GRR_SHOW_METADATA = 'false';
+    expect(configFromEnv().showMetadata).toBe(false);
+  });
+
+  it('parses GRR_SHOW_METADATA=1', () => {
+    process.env.GRR_SHOW_METADATA = '1';
+    expect(configFromEnv().showMetadata).toBe(true);
+  });
+
+  it('parses GRR_SHOW_METADATA=0', () => {
+    process.env.GRR_SHOW_METADATA = '0';
+    expect(configFromEnv().showMetadata).toBe(false);
+  });
+
+  it('throws on invalid GRR_SHOW_METADATA', () => {
+    process.env.GRR_SHOW_METADATA = 'yes';
+
+    expect(() => configFromEnv()).toThrow(
+      'Invalid GRR_SHOW_METADATA "yes". Must be one of: 1, 0, true, false',
+    );
+  });
 });

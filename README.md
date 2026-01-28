@@ -177,13 +177,30 @@ grr('startup').info('Hello');
 
 No further initialization is needed. Configuration comes from environment variables:
 
-| Variable     | Default       | Description                                                            |
-| ------------ | ------------- | ---------------------------------------------------------------------- |
-| `GRR_LEVEL`  | `info`        | Minimum log level (`trace`, `debug`, `info`, `warn`, `error`, `fatal`) |
-| `GRR_PRETTY` | `true` if TTY | Human-readable output (`1`, `0`, `true`, `false`)                      |
+| Variable            | Default          | Description                                                            |
+| ------------------- | ---------------- | ---------------------------------------------------------------------- |
+| `GRR_LEVEL`         | `info`           | Minimum log level (`trace`, `debug`, `info`, `warn`, `error`, `fatal`) |
+| `GRR_PRETTY`        | `true` if TTY    | Human-readable output (`1`, `0`, `true`, `false`)                      |
+| `GRR_SHOW_METADATA` | `false` if pretty | Show `$`-prefixed metadata in pretty mode (`1`, `0`, `true`, `false`) |
 
 ```bash
 GRR_LEVEL=debug GRR_PRETTY=1 node scripts/migrate.js
+```
+
+### Pretty mode and metadata
+
+In pretty mode, `$`-prefixed metadata fields (`$category`, `$topics`, `$requestId`, etc.) are hidden by default to reduce clutter in human-readable output. The `debug` object is also flattened so its contents appear at the top level. JSON output is unaffected.
+
+To show metadata in pretty mode:
+
+```bash
+GRR_PRETTY=1 GRR_SHOW_METADATA=1 node app.js
+```
+
+Or programmatically:
+
+```typescript
+initGrr({ pretty: true, showMetadata: true });
 ```
 
 ### Explicit configuration
@@ -264,4 +281,4 @@ initGrr({
 });
 ```
 
-When using a custom pino instance, `GRR_LEVEL` and `GRR_PRETTY` are ignored (a warning is logged if they're set).
+When using a custom pino instance, `GRR_LEVEL`, `GRR_PRETTY`, and `GRR_SHOW_METADATA` are ignored (a warning is logged if they're set).
