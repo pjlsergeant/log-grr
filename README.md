@@ -1,4 +1,4 @@
-# log-grr
+# @sgntai/grr
 
 An opinionated way to use pino in apps
 
@@ -6,7 +6,7 @@ An opinionated way to use pino in apps
 
 ```typescript
 // logging.ts
-import { createGrr } from 'log-grr';
+import { createGrr } from '@sgntai/grr';
 
 type Categories = 'startup' | 'db' | 'api';
 export const { grr, addContext } = createGrr<Categories>();
@@ -159,7 +159,7 @@ Define your categories and create your logger:
 
 ```typescript
 // logging.ts
-import { createGrr } from 'log-grr';
+import { createGrr } from '@sgntai/grr';
 
 type Categories = 'startup' | 'db' | 'db.postgres' | 'api' | 'api.users' | 'worker';
 const { grr, addContext, getContext } = createGrr<Categories>();
