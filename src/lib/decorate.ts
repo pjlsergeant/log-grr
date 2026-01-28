@@ -1,8 +1,8 @@
-import { DefaultFields } from './config';
-import { maybeContext } from './context';
-import { Fields } from './fields';
-import { topics } from './topics';
-import { Logger, levels } from './types';
+import { DefaultFields } from './config.js';
+import { maybeContext } from './context.js';
+import { Fields } from './fields.js';
+import { topics } from './topics.js';
+import { Logger, levels } from './types.js';
 
 export type DecoratorOptions = {
   defaultFields?: DefaultFields;

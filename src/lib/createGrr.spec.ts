@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createGrr } from './createGrr';
+import { createGrr } from './createGrr.js';
 
 type Categories = 'startup' | 'api' | 'api.users' | 'db';
 

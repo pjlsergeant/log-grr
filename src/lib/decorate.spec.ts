@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { decorateFields, withDecoration } from './decorate';
-import { addContext } from './context';
-import { createTestLogger } from './testLogger';
+import { decorateFields, withDecoration } from './decorate.js';
+import { addContext } from './context.js';
+import { createTestLogger } from './testLogger.js';
 
 describe('decorateFields', () => {
   it('adds category, topics, and phase', () => {

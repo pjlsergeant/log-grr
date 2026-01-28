@@ -1,7 +1,7 @@
 import pino, { Logger as PinoInstance, TransportTargetOptions } from 'pino';
-import { BaseLogger } from './baseLogger';
-import { Fields } from './fields';
-import { Logger, Level } from './types';
+import { BaseLogger } from './baseLogger.js';
+import { Fields } from './fields.js';
+import { Logger, Level } from './types.js';
 
 export type PinoConfig = {
   level?: Level;

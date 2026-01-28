@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createPinoLogger, PinoLogger, createPinoInstance } from './pinoLogger';
+import { createPinoLogger, PinoLogger, createPinoInstance } from './pinoLogger.js';
 
 describe('PinoLogger', () => {
   it('creates a logger for a category', () => {

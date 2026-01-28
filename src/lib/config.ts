@@ -1,6 +1,6 @@
 import { Logger as PinoInstance, TransportTargetOptions } from 'pino';
-import { Fields } from './fields';
-import { Level, levels } from './types';
+import { Fields } from './fields.js';
+import { Level, levels } from './types.js';
 
 /** Default fields to merge into every log entry. */
 export type DefaultFields = Fields | (() => Fields);

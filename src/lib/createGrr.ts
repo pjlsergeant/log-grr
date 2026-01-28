@@ -1,13 +1,13 @@
-import { addContext, maybeContext, getContext } from './context';
-import { Config, configFromEnv } from './config';
-import { withDecoration } from './decorate';
+import { addContext, maybeContext, getContext } from './context.js';
+import { Config, configFromEnv } from './config.js';
+import { withDecoration } from './decorate.js';
 import {
   createPinoLogger,
   createPinoLoggerFromInstance,
   createPinoLoggerWithTransports,
-} from './pinoLogger';
-import { createTestLogger, LogEntry } from './testLogger';
-import { Logger } from './types';
+} from './pinoLogger.js';
+import { createTestLogger, LogEntry } from './testLogger.js';
+import { Logger } from './types.js';
 
 export type GrrInstance<C extends string> = {
   grr: (category: C) => Logger;

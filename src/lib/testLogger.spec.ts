@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { createTestLogger } from './testLogger';
+import { createTestLogger } from './testLogger.js';
 
 describe('TestLogger', () => {
   let grr: ReturnType<typeof createTestLogger>['grr'];

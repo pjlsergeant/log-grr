@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { separateFields, serializeErrors } from './fields';
+import { separateFields, serializeErrors } from './fields.js';
 
 describe('separateFields', () => {
   it('separates $-prefixed fields into meta', () => {

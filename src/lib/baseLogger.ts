@@ -1,5 +1,5 @@
-import { separateFields, serializeErrors, Fields } from './fields';
-import { Logger, Level } from './types';
+import { separateFields, serializeErrors, Fields } from './fields.js';
+import { Logger, Level } from './types.js';
 
 /**
  * Base logger that handles field separation and error serialization.

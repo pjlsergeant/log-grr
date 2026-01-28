@@ -1,4 +1,4 @@
-import { Fields } from './fields';
+import { Fields } from './fields.js';
 
 export type Level = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { addContext, maybeContext, getContext } from './context';
+import { addContext, maybeContext, getContext } from './context.js';
 
 describe('context', () => {
   describe('addContext', () => {

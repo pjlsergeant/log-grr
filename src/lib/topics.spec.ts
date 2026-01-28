@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { topics } from './topics';
+import { topics } from './topics.js';
 
 describe('topics', () => {
   it('expands a multi-level category', () => {
