@@ -1,6 +1,6 @@
 {
   "name": "@sgntai/grr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An opinionated way to use pino in apps",
   "private": false,
   "type": "module",
@@ -9,7 +9,9 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
   "files": [
